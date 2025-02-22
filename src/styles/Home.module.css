@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 60vh;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.form input[type='text'] {
+  padding: 10px 20px;
+  width: 95%;
+}
+
+.form button {
+  padding: 10px 20px;
+  cursor: pointer;
+  color: white;
+  background-color: #0070f3;
+}

@@ -1,0 +1,17 @@
+.assistant,
+.user {
+  width: max-content;
+  padding: 15px 18px;
+  border-radius: 20px;
+  max-width: 300px;
+}
+
+.user {
+  background-color: rgb(50, 152, 235);
+  color: white;
+  float: right;
+}
+.assistant {
+  color: black;
+  background-color: #f0f0f0;
+}
