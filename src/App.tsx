@@ -1,34 +1,40 @@
-import styles from './styles/Home.module.css';
-import React, { useState } from 'react';
-import { MessageProps } from './types/message.type';
-import Message from './components/Message';
-import ollama from 'ollama';
+import styles from "./styles/Home.module.css";
+import React, { useState } from "react";
+import { MessageProps } from "./types/message.type";
+import Message from "./components/Message";
 
 function App() {
   const [messages, setmessages] = useState<MessageProps[]>([
     {
-      role: 'assistant',
-      content: 'Hello, bingung pas interview kerja? tanya sini!',
+      role: "assistant",
+      content: "Hello, bingung pas interview kerja? tanya sini!",
     },
   ]);
-  const [input, setinput] = useState('');
+  const [input, setinput] = useState("");
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim()) {
-      const newMessage: MessageProps = { role: 'user', content: input };
+      const newMessage: MessageProps = { role: "user", content: input };
       setmessages((prev) => [...prev, newMessage]);
-      // AI call
-      const { message } = await ollama.chat({
-        model: 'deepseek-r1:1.5b',
-        messages: [newMessage],
-        stream: false,
-      });
+
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "deepseek-r1:1.5b",
+          messages: [newMessage],
+          stream: false,
+        }),
+      }).then((res) => res.json());
+
       setmessages((prev) => [
         ...prev,
-        { role: 'assistant', content: message.content },
+        { role: "assistant", content: response.message.content },
       ]);
-      setinput('');
+      setinput("");
     }
   };
 
@@ -41,7 +47,7 @@ function App() {
               key={index}
               role={message.role}
               content={message.content}
-            />{' '}
+            />{" "}
             <br />
             <br />
             <br />
