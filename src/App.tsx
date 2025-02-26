@@ -19,10 +19,13 @@ function App() {
       const newMessage: MessageProps = { role: "user", content: input };
       setmessages((prev) => [...prev, newMessage]);
       // AI call
-      const { message } = await ollama.chat({
-        model: "deepseek-r1:1.5b",
-        messages: [newMessage],
-        stream: false,
+      const { message } = await fetch("/api/ollama/chat", {
+        method: "POST",
+        body: JSON.stringify({
+          model: "deepseek-r1:1.5b",
+          messages: newMessage,
+        }),
+        headers: { "Content-Type": "application/json" },
       });
       setmessages((prev) => [
         ...prev,
