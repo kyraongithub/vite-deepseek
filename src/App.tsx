@@ -2,7 +2,7 @@ import styles from "./styles/Home.module.css";
 import React, { useState } from "react";
 import { MessageProps } from "./types/message.type";
 import Message from "./components/Message";
-import ollama from "ollama";
+import axios from "axios";
 
 function App() {
   const [messages, setmessages] = useState<MessageProps[]>([
@@ -18,17 +18,23 @@ function App() {
     if (input.trim()) {
       const newMessage: MessageProps = { role: "user", content: input };
       setmessages((prev) => [...prev, newMessage]);
-      // AI call
-      const { message } = await ollama.chat({
-        model: "deepseek-r1:1.5b",
-        messages: [newMessage],
-        stream: false,
-      });
-      setmessages((prev) => [
-        ...prev,
-        { role: "assistant", content: message.content },
-      ]);
-      setinput("");
+
+      try {
+        const response = await axios.post("http://localhost:11434/api/chat", {
+          model: "deepseek-r1:1.5b",
+          messages: [newMessage],
+          stream: false,
+        });
+
+        const { message } = response.data;
+        setmessages((prev) => [
+          ...prev,
+          { role: "assistant", content: message.content },
+        ]);
+        setinput("");
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
   };
 
