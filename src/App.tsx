@@ -12,7 +12,7 @@ function App() {
     },
   ]);
   const [input, setinput] = useState('');
-  const ollama = new Ollama({ host: import.meta.env.OLLAMA_TOUCH_POINT });
+  const ollama = new Ollama({ host: import.meta.env.VITE_OLLAMA_TOUCH_POINT });
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
