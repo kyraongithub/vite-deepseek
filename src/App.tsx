@@ -2,7 +2,7 @@ import styles from './styles/Home.module.css';
 import React, { useState } from 'react';
 import { MessageProps } from './types/message.type';
 import Message from './components/Message';
-import ollama from 'ollama';
+import { Ollama } from 'ollama';
 
 function App() {
   const [messages, setmessages] = useState<MessageProps[]>([
@@ -12,6 +12,7 @@ function App() {
     },
   ]);
   const [input, setinput] = useState('');
+  const ollama = new Ollama({ host: import.meta.env.OLLAMA_TOUCH_POINT });
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
