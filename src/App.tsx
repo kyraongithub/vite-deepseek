@@ -1,36 +1,34 @@
-import styles from "./styles/Home.module.css";
-import React, { useState } from "react";
-import { MessageProps } from "./types/message.type";
-import Message from "./components/Message";
-import { Ollama } from "ollama";
-// import ollama from "ollama";
+import styles from './styles/Home.module.css';
+import React, { useState } from 'react';
+import { MessageProps } from './types/message.type';
+import Message from './components/Message';
+import ollama from 'ollama';
 
 function App() {
   const [messages, setmessages] = useState<MessageProps[]>([
     {
-      role: "assistant",
-      content: "Hello, bingung pas interview kerja? tanya sini!",
+      role: 'assistant',
+      content: 'Hello, bingung pas interview kerja? tanya sini!',
     },
   ]);
-  const [input, setinput] = useState("");
-  const ollama = new Ollama({ host: import.meta.env.VITE_OLLAMA_TOUCH_POINT });
+  const [input, setinput] = useState('');
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim()) {
-      const newMessage: MessageProps = { role: "user", content: input };
+      const newMessage: MessageProps = { role: 'user', content: input };
       setmessages((prev) => [...prev, newMessage]);
       // AI call
       const { message } = await ollama.chat({
-        model: "deepseek-r1:1.5b",
+        model: 'deepseek-r1:1.5b',
         messages: [newMessage],
         stream: false,
       });
       setmessages((prev) => [
         ...prev,
-        { role: "assistant", content: message.content },
+        { role: 'assistant', content: message.content },
       ]);
-      setinput("");
+      setinput('');
     }
   };
 
@@ -43,7 +41,7 @@ function App() {
               key={index}
               role={message.role}
               content={message.content}
-            />{" "}
+            />{' '}
             <br />
             <br />
             <br />
